@@ -17,7 +17,7 @@
             <tr>
                 <td>{{ $task->id }}</td>
                 <td>{!! link_to_route('tasks.show', $task->content, ['task' => $task->id]) !!}</td>
-                <th>{!! link_to_route('tasks.show', $task->status, ['task' => $task->id]) !!}</th>
+                <td>{!! link_to_route('tasks.show', $task->status, ['task' => $task->id]) !!}</td>
             </tr>
             @endforeach
         </tbody>
