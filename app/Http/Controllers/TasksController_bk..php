@@ -54,19 +54,15 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        if (\Auth::user()->id == $task->user_id) {
-            $this->validate($request, [
-                'status' => 'required|max:10',
-                'content' => 'required|max:255',
-            ]);
-            
-            $request->user()->tasks()->create([
-                'status' => $request->status,
-                'content' => $request->content,
-            ]);
-        } else {
-            return redirect('/');
-        }
+        $this->validate($request, [
+            'status' => 'required|max:10',
+            'content' => 'required|max:255',
+        ]);
+        
+        $request->user()->tasks()->create([
+            'status' => $request->status,
+            'content' => $request->content,
+        ]);
         
         /**
         $task = new Task;
@@ -108,13 +104,9 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
         
-        if (\Auth::user()->id == $task->user_id) {
-            return view('tasks.edit', [
-                'task' => $task,
-            ]);
-        } else {
-            return redirect('/');
-        }
+        return view('tasks.edit', [
+            'task' => $task,
+        ]);
     }
 
     /**
@@ -132,14 +124,9 @@ class TasksController extends Controller
         ]);
         
         $task = Task::findOrFail($id);
-        
-        if (\Auth::user()->id == $task->user_id) {
-            $task->status = $request->status;
-            $task->content = $request->content;
-            $task->save();
-        } else {
-            return redirect('/');
-        }
+        $task->status = $request->status;
+        $task->content = $request->content;
+        $task->save();
         
         return redirect('/');
     }
@@ -153,12 +140,7 @@ class TasksController extends Controller
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
-        
-        if (\Auth::user()->id == $task->user_id) {
-            $task->delete();
-        } else {
-            return redirect('/');
-        }
+        $task->delete();
         
         return redirect('/');
     }
