@@ -30,15 +30,6 @@ class TasksController extends Controller
         }
         
         return view('tasks.index', $data);
-        
-        
-        /**
-        $tasks = Task::all();
-        
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
-        */
     }
 
     /**
@@ -94,9 +85,13 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
         
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+        if (\Auth::user()->id == $task->user_id) {
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
